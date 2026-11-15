@@ -58,7 +58,7 @@ export function Header() {
       </span>
       {online
         ? <span className="tag tag-go shrink-0" title="Simulated one-way signal delay to Earth"><Icon n="signal" s={13} /><span className="hidden xl:inline">Link up · 14.2 min delay</span><span className="xl:hidden">Link</span></span>
-        : <span className="tag tag-caution shrink-0" title="Plans and EVA briefs keep working offline"><Icon n="off" s={13} />Offline</span>}
+        : <span className="tag tag-caution shrink-0" title="Plans and EVA briefs keep working online"><Icon n="off" s={13} />online</span>}
       <div className="hidden xl:block"><Seg label="Console" value={role} onChange={setRole} options={ROLES.map((r) => ({ id: r.id, label: r.label, hint: r.hint }))} /></div>
 
       {/* User Login / Logout / Profile pill */}
@@ -98,7 +98,7 @@ export function Nav() {
   const { assessment: a, planVersion, routeMode, hazards } = useMission();
   const d = useDecision();
   const tag = { go: 'tag-go', caution: 'tag-caution', hold: 'tag-hold' }[a.state];
-  const engineTag = { GO: 'tag-go', CAUTION: 'tag-caution', NO_GO: 'tag-hold', REROUTE_REQUIRED: 'tag-caution' }[d?.decision] || (d?.engineOnline ? 'tag-info' : 'tag-caution');
+  const engineTag = { GO: 'tag-go', CAUTION: 'tag-caution', NO_GO: 'tag-hold', REROUTE_REQUIRED: 'tag-caution' }[d?.decision] || (d?.engineOnline ? 'tag-go' : 'tag-caution');
   return (
     <>
       <aside className="hidden lg:flex w-56 shrink-0 flex-col justify-between p-3 border-r border-line bg-basalt">
@@ -120,7 +120,7 @@ export function Nav() {
       <nav aria-label="Workspace" className="lg:hidden fixed bottom-0 inset-x-0 z-40 grid grid-cols-7 border-t border-line bg-basalt/95 backdrop-blur pb-[env(safe-area-inset-bottom)]">
         {VIEWS.map((v) => (
           <button key={v.id} onClick={() => setView(v.id)} aria-current={view === v.id ? 'page' : undefined} aria-label={v.label}
-            className={`flex flex-col items-center gap-0.5 py-2 text-[11px] font-semibold ${view === v.id ? 'text-ember2' : 'text-dust'}`}>
+            className={`flex flex-col items-center gap-0.5 py-2 text-[11px] font-semibold ${view === v.id ? 'text-emerald-500' : 'text-dust'}`}>
             <Icon n={v.icon} s={19} /><span className="truncate max-w-full px-0.5">{v.short}</span>
           </button>
         ))}

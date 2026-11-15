@@ -50,7 +50,7 @@ async function quiet(fn) {
 }
 
 export async function getHealth() {
-  return quiet(() => request('/health'));
+  return quiet(() => request('/api/health'));
 }
 
 export async function createMission(data) {
