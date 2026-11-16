@@ -23,26 +23,49 @@ Planning data is modelled and simulated for design review. Not for flight.
 ## Architecture
 
 ```
-                         USER
-                           │
-                           ▼
-                ┌─────────────────────┐
-                │    ARES FRONTEND    │
-                │  Vite + Preact      │
-                │  Cesium Mars Atlas  │
-                │  A* + PLSS tick     │
-                └──────────┬──────────┘
-                           │ REST
-                           ▼
-                ┌─────────────────────┐
-                │    ARES BACKEND     │
-                │  Mission API        │
-                │  Risk / Decision    │
-                │  Telemetry / Hazard │
-                └──────────┬──────────┘
-                           ▼
-                         SQLite
+              ## Architecture
+
+The application follows a modular client-server architecture that integrates NASA planetary datasets with interactive 3D Mars visualization.
+
+```text
+             NASA DATA SOURCES
+     (CTX, HiRISE, MOLA, THEMIS, SHARAD)
+                      |
+                      v
+              DATA INTEGRATION
+          (NASA APIs / Map Tile Services)
+                      |
+                      v
+               FASTAPI BACKEND
+          (Data Processing & API Services)
+                      |
+                      v
+              REACT FRONTEND
+              (TypeScript UI)
+                      |
+                      v
+              3D MARS GLOBE
+           (Interactive Visualization)
+                      |
+          +-----------+-----------+
+          |           |           |
+          v           v           v
+       CTX Layer   MOLA Layer  HiRISE Layer
+          |           |           |
+          +-----------+-----------+
+                      |
+                      v
+           TERRAIN EXPLORATION
+             & MISSION PLANNING
 ```
+
+### Core Components
+- **Data Sources:** NASA planetary missions provide satellite imagery, elevation, thermal, and subsurface datasets.
+- **Backend:** FastAPI manages API communication, data processing, and integration.
+- **Frontend:** React and TypeScript handle the user interface and application interactions.
+- **3D Visualization:** Renders the Martian globe and geographical layers.
+- **Layer Management:** Allows independent loading and visualization of different scientific datasets.
+- **Future Navigation:** Supports terrain analysis and hazard-aware route planning.
 
 Docs: [docs/README.md](docs/README.md) · [3-minute demo](docs/07-demo.md) · [NASA data fusion](docs/08-nasa-data.md)
 
@@ -90,7 +113,7 @@ Backend:
 
 ```
 ENVIRONMENT=production
-DATABASE_URL=sqlite:///./ares.db
+DATABASE_URL=postgress///./ares.db
 CORS_ORIGINS=https://YOUR-FRONTEND.onrender.com
 ```
 
